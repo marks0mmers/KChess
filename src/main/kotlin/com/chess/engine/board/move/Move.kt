@@ -1,6 +1,7 @@
 package com.chess.engine.board.move
 
 import com.chess.engine.board.Board
+import com.chess.engine.board.BoardUtils
 import com.chess.engine.pieces.Piece
 
 sealed class Move(
@@ -29,13 +30,23 @@ sealed class Move(
     val currentCoordinate: Int?
         get() = movedPiece?.piecePosition
 
-    open fun execute(): Board {
-        TODO()
+    open fun execute() = Board {
+        board.currentPlayer.activePieces.filter { it != movedPiece }.forEach(::setPiece)
+        board.currentPlayer.opponent.activePieces.forEach(::setPiece)
+        setPiece(movedPiece?.movePiece(this@Move))
+        nextMoveMaker = board.currentPlayer.opponent.alliance
+        transitionMove = this@Move
     }
 
-    fun undo(): Board {
-        TODO()
+    open fun undo() = Board {
+        board.allPieces.forEach(::setPiece)
+        nextMoveMaker = board.currentPlayer.alliance
     }
 
-    fun disambiguationFile(): String = TODO()
+    fun disambiguationFile() = when (board.currentPlayer.legalMoves.find {
+        it.destinationCoordinate == destinationCoordinate && it != this && movedPiece?.pieceType == it.movedPiece?.pieceType
+    }) {
+        null -> ""
+        else ->  if (movedPiece != null) BoardUtils.getPositionAtCoordinate(movedPiece.piecePosition).subSequence(0, 1) else ""
+    }
 }

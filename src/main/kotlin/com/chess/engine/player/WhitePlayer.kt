@@ -6,7 +6,6 @@ import com.chess.engine.board.BoardUtils
 import com.chess.engine.board.move.KingSideCastleMove
 import com.chess.engine.board.move.Move
 import com.chess.engine.board.move.QueenSideCastleMove
-import com.chess.engine.pieces.Piece
 import com.chess.engine.pieces.PieceType
 import com.chess.engine.pieces.Rook
 

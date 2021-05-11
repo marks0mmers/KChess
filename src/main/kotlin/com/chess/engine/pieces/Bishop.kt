@@ -27,7 +27,7 @@ class Bishop(
     override val locationBonus: Int
         get() = pieceAlliance.bishopBonus(piecePosition)
 
-    override fun movePiece(move: Move): Piece? =
+    override fun movePiece(move: Move): Piece =
         PieceUtils.getMovedBishop(move.movedPiece?.pieceAlliance, move.destinationCoordinate)
 
     override fun calculateLegalMoves(board: Board): Collection<Move> = mutableListOf<Move>().apply {

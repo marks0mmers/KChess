@@ -47,6 +47,13 @@ class King(
         this.isCastled = isCastled
     }
 
+    constructor(
+        pieceAlliance: Alliance,
+        piecePosition: Int,
+        kingSideCastleCapable: Boolean,
+        queenSideCastleCapable: Boolean
+    ) : this(pieceAlliance, piecePosition, true, kingSideCastleCapable, queenSideCastleCapable)
+
     override val locationBonus = pieceAlliance.kingBonus(piecePosition)
 
     override fun movePiece(move: Move) = King(

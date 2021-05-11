@@ -27,9 +27,9 @@ object PieceUtils {
             alliance to BoardUtils.TILES_RANGE.associateWith { Queen(alliance, it, false) }
         }
 
-    fun getMovedPawn(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_PAWNS[alliance to destinationCoordinate]
-    fun getMovedKnight(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_KNIGHTS[alliance to destinationCoordinate]
-    fun getMovedBishop(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_BISHOPS[alliance to destinationCoordinate]
-    fun getMovedRook(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_ROOKS[alliance to destinationCoordinate]
-    fun getMovedQueen(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_QUEENS[alliance to destinationCoordinate]
+    fun getMovedPawn(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_PAWNS[alliance to destinationCoordinate] ?: error("Invalid Position")
+    fun getMovedKnight(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_KNIGHTS[alliance to destinationCoordinate] ?: error("Invalid Position")
+    fun getMovedBishop(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_BISHOPS[alliance to destinationCoordinate] ?: error("Invalid Position")
+    fun getMovedRook(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_ROOKS[alliance to destinationCoordinate] ?: error("Invalid Position")
+    fun getMovedQueen(alliance: Alliance?, destinationCoordinate: Int) = ALL_POSSIBLE_QUEENS[alliance to destinationCoordinate] ?: error("Invalid Position")
 }
