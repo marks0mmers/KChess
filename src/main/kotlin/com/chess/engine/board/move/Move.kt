@@ -4,7 +4,7 @@ import com.chess.engine.board.Board
 import com.chess.engine.board.BoardUtils
 import com.chess.engine.pieces.Piece
 
-sealed class Move(
+abstract class Move(
     val board: Board,
     val movedPiece: Piece?,
     val destinationCoordinate: Int,
@@ -17,7 +17,7 @@ sealed class Move(
         pieceMoved?.isFirstMove ?: false
     )
 
-    private constructor(board: Board, destinationCoordinate: Int) : this(
+    constructor(board: Board, destinationCoordinate: Int) : this(
         board,
         null,
         destinationCoordinate,

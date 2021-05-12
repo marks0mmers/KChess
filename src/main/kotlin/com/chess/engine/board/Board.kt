@@ -3,6 +3,7 @@ package com.chess.engine.board
 import com.chess.engine.Alliance
 import com.chess.engine.board.move.Move
 import com.chess.engine.pieces.*
+import com.chess.engine.pieces.impl.*
 import com.chess.engine.player.BlackPlayer
 import com.chess.engine.player.Player
 import com.chess.engine.player.WhitePlayer
@@ -40,7 +41,7 @@ class Board(init: BoardBuilderDsl.() -> Unit) {
         private fun prettyPrint(piece: Piece?) = when (piece) {
             null -> "-"
             else -> when {
-                piece.pieceAlliance.isBlack -> piece.toString().lowercase()
+                piece.pieceAlliance.isBlack -> piece.toString().toLowerCase()
                 else -> piece.toString()
             }
         }

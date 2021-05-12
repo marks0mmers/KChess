@@ -4,7 +4,7 @@ import com.chess.engine.Alliance
 import com.chess.engine.board.Board
 import com.chess.engine.board.move.Move
 
-sealed class Piece(
+abstract class Piece(
     val pieceType: PieceType,
     val pieceAlliance: Alliance,
     val piecePosition: Int,
