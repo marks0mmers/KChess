@@ -13,4 +13,8 @@ class KingSideCastleMove(
     castleRookDestination: Int
 ) : CastleMove(board, pieceMoved, destinationCoordinate, castleRook, castleRookStart, castleRookDestination) {
     override fun toString() = "O-O"
+
+    override fun equals(other: Any?) = super.equals(other) && castleRook == (other as? KingSideCastleMove)?.castleRook
+
+    override fun hashCode() = super.hashCode() + castleRook.hashCode()
 }

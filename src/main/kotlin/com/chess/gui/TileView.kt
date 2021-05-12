@@ -53,16 +53,16 @@ private fun getTileColor(tileId: Int): Color {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        piece?.let {
+        piece?.let { p ->
             Image(
-                imageResource("art/simple/${piece.pieceAlliance.toString().substring(0, 1)}$piece.gif"),
-                piece.toString()
+                imageResource("art/simple/${p.pieceAlliance.toString().substring(0, 1)}$p.gif"),
+                p.toString()
             )
         }
-        if (isLegalMove == true) {
-            Image(
+        when (isLegalMove) {
+            true -> Image(
                 imageResource("art/misc/green_dot.png"),
-                "legal-move"
+                contentDescription = "legal-move"
             )
         }
     }

@@ -25,4 +25,12 @@ class PawnPromotion(
 
     override fun toString() = movedPiece?.let { BoardUtils.getPositionAtCoordinate(it.piecePosition) } + "-" +
             BoardUtils.getPositionAtCoordinate(destinationCoordinate) + "=" + promotionPiece.pieceType.toString()
+
+    override fun hashCode() = decoratedMove.hashCode() + (31 * promotedPawn.hashCode())
+
+    override fun equals(other: Any?) = when {
+        this === other -> true
+        javaClass != other?.javaClass -> false
+        else -> super.equals(other)
+    }
 }

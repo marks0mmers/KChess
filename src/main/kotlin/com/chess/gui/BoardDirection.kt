@@ -1,7 +1,5 @@
 package com.chess.gui
 
-import com.chess.gui.models.Tile
-
 enum class BoardDirection {
     NORMAL {
         override val opposite: BoardDirection

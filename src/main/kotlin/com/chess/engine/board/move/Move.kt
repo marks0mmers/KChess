@@ -49,4 +49,25 @@ abstract class Move(
         null -> ""
         else ->  if (movedPiece != null) BoardUtils.getPositionAtCoordinate(movedPiece.piecePosition).subSequence(0, 1) else ""
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Move
+
+        if (movedPiece != other.movedPiece) return false
+        if (destinationCoordinate != other.destinationCoordinate) return false
+        if (currentCoordinate != other.currentCoordinate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = movedPiece?.hashCode() ?: 0
+        result = 31 * result + destinationCoordinate
+        result = 31 * result + (movedPiece?.piecePosition ?: 0)
+        return result
+    }
+
 }

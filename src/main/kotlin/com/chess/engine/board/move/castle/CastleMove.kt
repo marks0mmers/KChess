@@ -22,4 +22,16 @@ abstract class CastleMove(
         nextMoveMaker = board.currentPlayer.opponent.alliance
         transitionMove = this@CastleMove
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (!super.equals(other)) return false
+        other as CastleMove
+        if (castleRook != other.castleRook) return false
+
+        return true
+    }
+
+    override fun hashCode() = 31 * super.hashCode() + castleRook.hashCode()
+
+
 }

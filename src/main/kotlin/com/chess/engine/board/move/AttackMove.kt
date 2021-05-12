@@ -10,4 +10,15 @@ abstract class AttackMove(
     override val attackedPiece: Piece
 ) : Move(board, movedPiece, destinationCoordinate) {
     override val isAttack = true
+
+    override fun equals(other: Any?): Boolean {
+        if (!super.equals(other)) return false
+        other as AttackMove
+        if (attackedPiece != other.attackedPiece) return false
+        return true
+    }
+
+    override fun hashCode() = 31 * super.hashCode() + attackedPiece.hashCode()
+
+
 }

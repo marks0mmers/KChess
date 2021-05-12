@@ -2,11 +2,10 @@ package com.chess.gui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.material.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,9 +32,9 @@ import com.chess.engine.board.move.util.MoveFactory
         }
     }
 
-    Column(
+    Card(
         modifier = Modifier
-            .padding(horizontal = 100.dp),
+            .width(400.dp),
     ) {
         LazyVerticalGrid(
             cells = GridCells.Fixed(BoardUtils.NUM_TILES_PER_ROW)
@@ -74,5 +73,4 @@ import com.chess.engine.board.move.util.MoveFactory
             }
         }
     }
-
 }
