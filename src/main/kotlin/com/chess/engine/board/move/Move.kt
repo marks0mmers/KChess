@@ -47,7 +47,10 @@ abstract class Move(
         it.destinationCoordinate == destinationCoordinate && it != this && movedPiece?.pieceType == it.movedPiece?.pieceType
     }) {
         null -> ""
-        else ->  if (movedPiece != null) BoardUtils.getPositionAtCoordinate(movedPiece.piecePosition).subSequence(0, 1) else ""
+        else -> when(movedPiece) {
+            null -> ""
+            else -> BoardUtils.getPositionAtCoordinate(movedPiece.piecePosition).subSequence(0, 1)
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -63,11 +66,10 @@ abstract class Move(
         return true
     }
 
-    override fun hashCode(): Int {
-        var result = movedPiece?.hashCode() ?: 0
-        result = 31 * result + destinationCoordinate
-        result = 31 * result + (movedPiece?.piecePosition ?: 0)
-        return result
-    }
+    override fun hashCode() = listOf(
+        movedPiece.hashCode(),
+        destinationCoordinate,
+        movedPiece?.piecePosition ?: 0
+    ).fold(0) { total, num -> 31 * total + num }
 
 }

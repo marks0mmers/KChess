@@ -7,12 +7,12 @@ import com.chess.engine.pieces.impl.Pawn
 import com.chess.engine.pieces.Piece
 
 class PawnPromotion(
-    val decoratedMove: Move,
-    val promotionPiece: Piece
+    private val decoratedMove: Move,
+    private val promotionPiece: Piece
 ) : PawnMove(decoratedMove.board, decoratedMove.movedPiece, decoratedMove.destinationCoordinate) {
     override val isAttack = decoratedMove.isAttack
     override val attackedPiece = decoratedMove.attackedPiece
-    val promotedPawn = decoratedMove.movedPiece as? Pawn
+    private val promotedPawn = decoratedMove.movedPiece as? Pawn
 
     override fun execute() = Board {
         val pawnMovedBoard = decoratedMove.board
@@ -26,7 +26,10 @@ class PawnPromotion(
     override fun toString() = movedPiece?.let { BoardUtils.getPositionAtCoordinate(it.piecePosition) } + "-" +
             BoardUtils.getPositionAtCoordinate(destinationCoordinate) + "=" + promotionPiece.pieceType.toString()
 
-    override fun hashCode() = decoratedMove.hashCode() + (31 * promotedPawn.hashCode())
+    override fun hashCode() = listOf(
+        decoratedMove.hashCode(),
+        promotedPawn.hashCode()
+    ).fold(0) { total, num -> 31 * total + num }
 
     override fun equals(other: Any?) = when {
         this === other -> true

@@ -33,13 +33,10 @@ abstract class Piece(
         return true
     }
 
-    override fun hashCode(): Int {
-        var result = pieceType.hashCode()
-        result = 31 * result + pieceAlliance.hashCode()
-        result = 31 * result + piecePosition
-        result = 31 * result + isFirstMove.hashCode()
-        return result
-    }
-
-
+    override fun hashCode() = listOf(
+        pieceType.hashCode(),
+        pieceAlliance.hashCode(),
+        piecePosition,
+        isFirstMove.hashCode()
+    ).fold(0) { total, num -> 31 * total + num }
 }

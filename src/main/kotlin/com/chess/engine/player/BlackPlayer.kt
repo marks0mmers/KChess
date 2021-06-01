@@ -13,7 +13,7 @@ class BlackPlayer(
     board: Board,
     whiteStandardLegals: Collection<Move>,
     blackStandardLegals: Collection<Move>
-) : Player(board, blackStandardLegals, whiteStandardLegals, board.blackPieces) {
+) : Player(board, board.blackPieces, blackStandardLegals, whiteStandardLegals) {
     override val alliance = Alliance.BLACK
     override val opponent: Player
         get() = board.whitePlayer
@@ -32,10 +32,10 @@ class BlackPlayer(
                         if (kingSideRook != null &&
                             kingSideRook.isFirstMove &&
                             kingSideRook.pieceType == PieceType.ROOK &&
-                            (5..6).all { calculateAttacksOnTile(it, opponentLegals).isEmpty() } &&
+                            (5..6).all { it.calculateAttacksOnTile(opponentLegals).isEmpty() } &&
                             !BoardUtils.isKingPawnTrap(board, playerKing, 12)
                         ) {
-                            add(KingSideCastleMove(board, playerKing, 6, kingSideRook, kingSideRook.piecePosition, 5))
+                            add(KingSideCastleMove(board, playerKing, 6, kingSideRook, 5))
                         }
                     }
                     // black queen-side castle
@@ -44,10 +44,10 @@ class BlackPlayer(
                         if (queenSideRook != null &&
                             queenSideRook.isFirstMove &&
                             queenSideRook.pieceType == PieceType.ROOK &&
-                            (2..3).all { calculateAttacksOnTile(it, opponentLegals).isEmpty() } &&
+                            (2..3).all { it.calculateAttacksOnTile(opponentLegals).isEmpty() } &&
                             !BoardUtils.isKingPawnTrap(board, playerKing, 12)
                         ) {
-                            add(QueenSideCastleMove(board, playerKing, 2, queenSideRook, queenSideRook.piecePosition, 3))
+                            add(QueenSideCastleMove(board, playerKing, 2, queenSideRook, 3))
                         }
                     }
                 }

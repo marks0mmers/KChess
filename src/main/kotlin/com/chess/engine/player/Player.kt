@@ -11,22 +11,24 @@ import com.chess.engine.pieces.PieceType
 
 abstract class Player(
     val board: Board,
+    val activePieces: Collection<Piece>,
     private val playerLegals: Collection<Move>,
     private val opponentLegals: Collection<Move>,
-    val activePieces: Collection<Piece>
 ) {
     companion object {
-        fun calculateAttacksOnTile(tile: Int, moves: Collection<Move>) = moves.filter { it.destinationCoordinate == tile }
+        fun Int.calculateAttacksOnTile(moves: Collection<Move>) = moves.filter { it.destinationCoordinate == this }
     }
 
-    val playerKing: King = activePieces.find { it.pieceType == PieceType.KING } as King
-    val isInCheck = calculateAttacksOnTile(playerKing.piecePosition, opponentLegals).isNotEmpty()
-    val hasEscapeMoves: Boolean
-        get() = legalMoves.any { makeMove(it).moveStatus.isDone }
+    val playerKing = activePieces.find { it.pieceType == PieceType.KING } as King
+    val isInCheck = playerKing.piecePosition.calculateAttacksOnTile(opponentLegals).isNotEmpty()
     val hasCastleOpportunities = !isInCheck && !playerKing.isCastled && (playerKing.kingSideCastleCapable || playerKing.queenSideCastleCapable)
-    val isInCheckMate = isInCheck && !hasEscapeMoves
     val isCastled = playerKing.isCastled
-
+    private val hasEscapeMoves: Boolean
+        get() = legalMoves.any { makeMove(it).moveStatus.isDone }
+    val isInCheckMate: Boolean
+        get() = isInCheck && !hasEscapeMoves
+    val isInStaleMate: Boolean
+        get() = !isInCheck && !hasEscapeMoves
     val legalMoves: Collection<Move>
         get() = playerLegals + calculateKingCastles(playerLegals, opponentLegals)
 
@@ -41,8 +43,7 @@ abstract class Player(
             when {
                 transitionalBoard.currentPlayer.opponent.isInCheck ->
                     MoveTransition(board, board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK)
-                else ->
-                    MoveTransition(board, transitionalBoard, move, MoveStatus.DONE)
+                else -> MoveTransition(board, transitionalBoard, move, MoveStatus.DONE)
             }
         }
     }

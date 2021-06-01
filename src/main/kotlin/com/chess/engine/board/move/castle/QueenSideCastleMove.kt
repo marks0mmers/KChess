@@ -9,12 +9,13 @@ class QueenSideCastleMove(
     pieceMoved: Piece?,
     destinationCoordinate: Int,
     castleRook: Rook,
-    castleRookStart: Int,
     castleRookDestination: Int
-) : CastleMove(board, pieceMoved, destinationCoordinate, castleRook, castleRookStart, castleRookDestination) {
+) : CastleMove(board, pieceMoved, destinationCoordinate, castleRook, castleRookDestination) {
     override fun toString() = "O-O-O"
 
     override fun equals(other: Any?) = super.equals(other) && castleRook == (other as? QueenSideCastleMove)?.castleRook
 
-    override fun hashCode() = super.hashCode() + castleRook.hashCode()
+    override fun hashCode() = listOf(
+        castleRook.hashCode()
+    ).fold(super.hashCode()) { total, num -> 31 * total + num }
 }

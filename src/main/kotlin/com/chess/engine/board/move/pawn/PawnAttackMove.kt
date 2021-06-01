@@ -11,6 +11,6 @@ open class PawnAttackMove(
     destinationCoordinate: Int,
     attackedPiece: Piece
 ) : AttackMove(board, movedPiece, destinationCoordinate, attackedPiece) {
-    override fun toString() = movedPiece?.piecePosition?.let { BoardUtils.getPositionAtCoordinate(it) } +
-            "x" + BoardUtils.getPositionAtCoordinate(destinationCoordinate)
+    override fun toString() = movedPiece?.piecePosition?.let { BoardUtils.getPositionAtCoordinate(it)[0] +
+            "x" + BoardUtils.getPositionAtCoordinate(destinationCoordinate) } ?: ""
 }

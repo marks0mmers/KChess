@@ -18,7 +18,9 @@ abstract class AttackMove(
         return true
     }
 
-    override fun hashCode() = 31 * super.hashCode() + attackedPiece.hashCode()
+    override fun hashCode() = listOf(
+        attackedPiece.hashCode()
+    ).fold(super.hashCode()) { total, num -> 31 * total + num }
 
 
 }

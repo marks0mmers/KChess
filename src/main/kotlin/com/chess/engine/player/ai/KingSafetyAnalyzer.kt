@@ -18,6 +18,17 @@ object KingSafetyAnalyzer {
         BoardUtils.EIGHTH_COLUMN
     )
 
+    private val ROWS = listOf(
+        BoardUtils.FIRST_ROW,
+        BoardUtils.SECOND_ROW,
+        BoardUtils.THIRD_ROW,
+        BoardUtils.FOURTH_ROW,
+        BoardUtils.FIFTH_ROW,
+        BoardUtils.SIXTH_ROW,
+        BoardUtils.SEVENTH_ROW,
+        BoardUtils.EIGHTH_ROW
+    )
+
     fun calculateKingTropism(player: Player): KingDistance {
         val playerKingSquare = player.playerKing.piecePosition
         val enemyMoves = player.opponent.legalMoves
@@ -41,27 +52,13 @@ object KingSafetyAnalyzer {
         return max(rankDistance, fileDistance)
     }
     
-    private fun getFile(coordinate: Int) = when {
-        BoardUtils.FIRST_COLUMN[coordinate] -> 1
-        BoardUtils.SECOND_COLUMN[coordinate] -> 2
-        BoardUtils.THIRD_COLUMN[coordinate] -> 3
-        BoardUtils.FOURTH_COLUMN[coordinate] -> 4
-        BoardUtils.FIFTH_COLUMN[coordinate] -> 5
-        BoardUtils.SIXTH_COLUMN[coordinate] -> 6
-        BoardUtils.SEVENTH_COLUMN[coordinate] -> 7
-        BoardUtils.EIGHTH_COLUMN[coordinate] -> 8
-        else -> error("Should not reach here")
+    private fun getFile(coordinate: Int) = when (val file = COLUMNS.indexOfFirst { it[coordinate] }) {
+        -1 -> error("Should not reach here")
+        else -> file
     }
     
-    private fun getRank(coordinate: Int) = when {
-        BoardUtils.FIRST_ROW[coordinate] -> 1
-        BoardUtils.SECOND_ROW[coordinate] -> 2
-        BoardUtils.THIRD_ROW[coordinate] -> 3
-        BoardUtils.FOURTH_ROW[coordinate] -> 4
-        BoardUtils.FIFTH_ROW[coordinate] -> 5
-        BoardUtils.SIXTH_ROW[coordinate] -> 6
-        BoardUtils.SEVENTH_ROW[coordinate] -> 7
-        BoardUtils.EIGHTH_ROW[coordinate] -> 8
-        else -> error("Should not reach here")
+    private fun getRank(coordinate: Int) = when (val rank = ROWS.indexOfFirst { it[coordinate] }) {
+        -1 -> error("Should not reach here")
+        else -> rank
     }
 }

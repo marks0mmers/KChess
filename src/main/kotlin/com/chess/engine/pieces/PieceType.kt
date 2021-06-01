@@ -1,12 +1,12 @@
 package com.chess.engine.pieces
 
 enum class PieceType(val value: Int, private val pieceName: String) {
-    PAWN(0, "P"),
-    KNIGHT(0, "N"),
-    BISHOP(0, "B"),
-    ROOK(0, "R"),
-    QUEEN(0, "Q"),
-    KING(0, "K");
+    PAWN(value = 0, pieceName = "P"),
+    KNIGHT(value = 0, pieceName = "N"),
+    BISHOP(value = 0, pieceName = "B"),
+    ROOK(value = 0, pieceName = "R"),
+    QUEEN(value = 0, pieceName = "Q"),
+    KING(value = 0, pieceName = "K");
 
     override fun toString() = pieceName
 }

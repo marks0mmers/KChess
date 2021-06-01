@@ -5,12 +5,18 @@ import com.chess.engine.player.BlackPlayer
 import com.chess.engine.player.Player
 import com.chess.engine.player.WhitePlayer
 
-enum class Alliance {
-    WHITE {
-        override val isWhite = true
-        override val isBlack = false
-        override val direction = Alliance.UP_DIRECTION
-        override val oppositeDirection = Alliance.DOWN_DIRECTION
+enum class Alliance(
+    val isWhite: Boolean,
+    val isBlack: Boolean,
+    val direction: Int,
+    val oppositeDirection: Int,
+) {
+    WHITE(
+        isWhite = true,
+        isBlack = false,
+        direction = Alliance.UP_DIRECTION,
+        oppositeDirection = Alliance.DOWN_DIRECTION,
+    ) {
         override fun toString() = "White"
 
         override fun pawnBonus(position: Int) = Alliance.WHITE_PAWN_PREFERRED_COORDINATES[position]
@@ -29,11 +35,12 @@ enum class Alliance {
 
         override fun choosePlayerByAlliance(whitePlayer: WhitePlayer, blackPlayer: BlackPlayer) = whitePlayer
     },
-    BLACK {
-        override val isWhite = false
-        override val isBlack = true
-        override val direction = Alliance.DOWN_DIRECTION
-        override val oppositeDirection = Alliance.UP_DIRECTION
+    BLACK(
+        isWhite = false,
+        isBlack = true,
+        direction = Alliance.DOWN_DIRECTION,
+        oppositeDirection = Alliance.UP_DIRECTION,
+    ) {
         override fun toString() = "Black"
 
         override fun pawnBonus(position: Int) = Alliance.BLACK_PAWN_PREFERRED_COORDINATES[position]
@@ -53,10 +60,6 @@ enum class Alliance {
         override fun choosePlayerByAlliance(whitePlayer: WhitePlayer, blackPlayer: BlackPlayer) = blackPlayer
     };
 
-    abstract val isWhite: Boolean
-    abstract val isBlack: Boolean
-    abstract val direction: Int
-    abstract val oppositeDirection: Int
     abstract fun pawnBonus(position: Int): Int
     abstract fun knightBonus(position: Int): Int
     abstract fun bishopBonus(position: Int): Int

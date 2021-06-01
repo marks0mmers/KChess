@@ -9,7 +9,7 @@ import com.chess.engine.player.Player
 import com.chess.engine.player.WhitePlayer
 
 class Board(init: BoardBuilderDsl.() -> Unit) {
-    val boardConfig: Map<Int, Piece>
+    private val boardConfig: Map<Int, Piece>
     val currentPlayer: Player
     val whitePieces: Collection<Piece>
     val blackPieces: Collection<Piece>
@@ -38,11 +38,11 @@ class Board(init: BoardBuilderDsl.() -> Unit) {
     }
 
     companion object {
-        private fun prettyPrint(piece: Piece?) = when (piece) {
+        private fun Piece?.prettyPrint() = when (this) {
             null -> "-"
             else -> when {
-                piece.pieceAlliance.isBlack -> piece.toString().toLowerCase()
-                else -> piece.toString()
+                pieceAlliance.isBlack -> this.toString().lowercase()
+                else -> this.toString()
             }
         }
 
@@ -79,10 +79,11 @@ class Board(init: BoardBuilderDsl.() -> Unit) {
 
     fun getPiece(coordinate: Int) = boardConfig[coordinate]
 
-    override fun toString(): String {
-        return BoardUtils.TILES_RANGE.fold("") { s, i ->
-            val baseRet = s + String.format("%3s", prettyPrint(boardConfig[i]))
-            if ((i + 1) % 8 == 0) baseRet + "\n" else baseRet
+    override fun toString() = BoardUtils.TILES_RANGE.fold("") { s, i ->
+        val baseRet = s + String.format("%3s", boardConfig[i].prettyPrint())
+        when {
+            (i + 1) % 8 == 0 -> baseRet + "\n"
+            else -> baseRet
         }
     }
 

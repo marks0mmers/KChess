@@ -1,12 +1,17 @@
 package com.chess.gui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.chess.engine.Alliance.WHITE
 import com.chess.engine.board.move.Move
@@ -17,29 +22,45 @@ import com.chess.engine.board.move.Move
     }
 
     Card {
-        Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
-                .defaultMinSize(400.dp, 100.dp),
+                .defaultMinSize(100.dp, 400.dp),
         ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 10.dp)
+            Column(
+                modifier = Modifier
+                    .width(50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("White: ", modifier = Modifier.defaultMinSize(minWidth = 60.dp))
-                LazyRow {
+                Text(
+                    text = "White",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFFBFFD4))
+                        .border(1.dp, Color.Black),
+                )
+                LazyColumn {
                     items(whiteMoves.size) { i ->
-                        if (i > 0) Text(", ")
                         Text(whiteMoves[i].toString())
                     }
                 }
             }
-            Row(
-                modifier = Modifier.padding(horizontal = 10.dp)
+            Column(
+                modifier = Modifier
+                    .width(50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("Black: ", modifier = Modifier.defaultMinSize(minWidth = 60.dp))
-                LazyRow {
+                Text(
+                    text = "Black",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFFBFFD4))
+                        .border(1.dp, Color.Black),
+                )
+                LazyColumn {
                     items(blackMoves.size) { i ->
-                        if (i > 0) Text(", ")
                         Text(blackMoves[i].toString())
                     }
                 }

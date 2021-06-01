@@ -10,8 +10,7 @@ abstract class CastleMove(
     pieceMoved: Piece?,
     destinationCoordinate: Int,
     val castleRook: Rook,
-    val castleRookStart: Int,
-    val castleRookDestination: Int
+    private val castleRookDestination: Int
 ) : Move(board, pieceMoved, destinationCoordinate) {
     override val isCastlingMove = true
 
@@ -31,7 +30,9 @@ abstract class CastleMove(
         return true
     }
 
-    override fun hashCode() = 31 * super.hashCode() + castleRook.hashCode()
+    override fun hashCode() = listOf(
+        castleRook.hashCode()
+    ).fold(super.hashCode()) { total, num -> 31 * total + num }
 
 
 }
