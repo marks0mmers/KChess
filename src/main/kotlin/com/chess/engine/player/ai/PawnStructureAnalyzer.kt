@@ -4,6 +4,7 @@ import com.chess.engine.pieces.Piece
 import com.chess.engine.pieces.PieceType
 import com.chess.engine.player.Player
 
+@Suppress("unused")
 object PawnStructureAnalyzer {
     private const val ISOLATED_PAWN_PENALTY = -10
     private const val DOUBLED_PAWN_PENALTY = -10
@@ -28,7 +29,7 @@ object PawnStructureAnalyzer {
             numIsolatedPawns += pawnsOnColumnTable[7]
         }
         for (i in pawnsOnColumnTable.indices) {
-            if (pawnsOnColumnTable[i-1] == 0 && pawnsOnColumnTable[i+1] == 0) {
+            if ((i == 0 || pawnsOnColumnTable[i-1] == 0) && (i == pawnsOnColumnTable.size - 1 || pawnsOnColumnTable[i+1] == 0)) {
                 numIsolatedPawns += pawnsOnColumnTable[i]
             }
         }

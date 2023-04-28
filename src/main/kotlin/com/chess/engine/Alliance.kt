@@ -8,15 +8,17 @@ import com.chess.engine.player.WhitePlayer
 enum class Alliance(
     val isWhite: Boolean,
     val isBlack: Boolean,
-    val direction: Int,
-    val oppositeDirection: Int,
 ) {
     WHITE(
         isWhite = true,
         isBlack = false,
-        direction = Alliance.UP_DIRECTION,
-        oppositeDirection = Alliance.DOWN_DIRECTION,
     ) {
+        override val direction: Int
+            get() = Alliance.UP_DIRECTION
+
+        override val oppositeDirection: Int
+            get() = Alliance.DOWN_DIRECTION
+
         override fun toString() = "White"
 
         override fun pawnBonus(position: Int) = Alliance.WHITE_PAWN_PREFERRED_COORDINATES[position]
@@ -38,9 +40,13 @@ enum class Alliance(
     BLACK(
         isWhite = false,
         isBlack = true,
-        direction = Alliance.DOWN_DIRECTION,
-        oppositeDirection = Alliance.UP_DIRECTION,
     ) {
+        override val direction: Int
+            get() = Alliance.DOWN_DIRECTION
+
+        override val oppositeDirection: Int
+            get() = Alliance.UP_DIRECTION
+
         override fun toString() = "Black"
 
         override fun pawnBonus(position: Int) = Alliance.BLACK_PAWN_PREFERRED_COORDINATES[position]
@@ -60,6 +66,9 @@ enum class Alliance(
         override fun choosePlayerByAlliance(whitePlayer: WhitePlayer, blackPlayer: BlackPlayer) = blackPlayer
     };
 
+
+    abstract val direction: Int
+    abstract val oppositeDirection: Int
     abstract fun pawnBonus(position: Int): Int
     abstract fun knightBonus(position: Int): Int
     abstract fun bishopBonus(position: Int): Int

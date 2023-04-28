@@ -12,9 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.res.imageResource
 import com.chess.engine.board.BoardUtils
 import com.chess.engine.pieces.Piece
 
@@ -41,7 +40,7 @@ private fun getTileColor(tileId: Int): Color {
     piece: Piece?,
     isSelected: Boolean,
     onClick: (Int) -> Unit,
-    isLegalMove: Boolean? = false,
+    isLegalMove: Boolean = false,
 ) {
     val background = remember { getTileColor(tileId) }
     Column(
@@ -55,15 +54,13 @@ private fun getTileColor(tileId: Int): Color {
     ) {
         piece?.let { p ->
             Image(
-                imageResource("art/simple/${p.pieceAlliance.toString().substring(0, 1)}$p.gif"),
-                p.toString()
+                painter = painterResource("art/simple/${p.pieceAlliance.toString().substring(0, 1)}$p.gif"),
+                contentDescription = p.toString()
             )
         }
-        when (isLegalMove) {
-            true -> Image(
-                imageResource("art/misc/green_dot.png"),
-                contentDescription = "legal-move"
-            )
-        }
+        if (isLegalMove) Image(
+            painter = painterResource("art/misc/green_dot.png"),
+            contentDescription = "legal-move"
+        )
     }
 }

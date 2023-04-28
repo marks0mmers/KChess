@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.5.10"
-    id("org.jetbrains.compose") version "0.4.0"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.compose)
 }
 
 group = "org.example"
@@ -8,7 +8,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 dependencies {
@@ -20,4 +19,8 @@ compose.desktop {
     application {
         mainClass = "com.chess.ChessKt"
     }
+}
+
+kotlin {
+    jvmToolchain(14)
 }

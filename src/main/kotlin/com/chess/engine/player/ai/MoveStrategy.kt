@@ -5,5 +5,5 @@ import com.chess.engine.board.move.Move
 
 interface MoveStrategy {
     val numBoardsEvaluated: Long
-    fun execute(board: Board): Move
+    suspend fun execute(board: Board): Move
 }

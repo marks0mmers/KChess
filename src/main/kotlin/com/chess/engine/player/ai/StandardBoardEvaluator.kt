@@ -43,9 +43,9 @@ object StandardBoardEvaluator : BoardEvaluator {
             pawnStructure
 
     private val Player.attacks
-        get() = legalMoves
-            .filter { move -> move.isAttack && move.movedPiece?.pieceValue ?: 0 <= move.attackedPiece?.pieceValue ?: 0 }
-            .count() * ATTACK_MULTIPLIER
+        get() = ATTACK_MULTIPLIER * legalMoves.count { move ->
+            move.isAttack && (move.movedPiece?.pieceValue ?: 0) <= (move.attackedPiece?.pieceValue ?: 0)
+        }
 
     private val Player.pieceEvaluations
         get() = activePieces
@@ -83,6 +83,6 @@ object StandardBoardEvaluator : BoardEvaluator {
 
     private val Player.kingSafety
         get() = KingSafetyAnalyzer.calculateKingTropism(this).let { kingDistance ->
-            kingDistance.enemyPiece?.pieceValue ?: 0 / 100 * kingDistance.distance
+            (kingDistance.enemyPiece?.pieceValue ?: 0) / 100 * kingDistance.distance
         }
 }

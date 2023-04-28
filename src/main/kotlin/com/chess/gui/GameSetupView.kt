@@ -7,7 +7,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -15,15 +14,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.chess.engine.player.PlayerType
 
-@ExperimentalComposeUiApi
-@Composable fun GameSetupView(hideView: () -> Unit) {
-    var whitePlayerType by remember { mutableStateOf(PlayerType.HUMAN) }
-    var blackPlayerType by remember { mutableStateOf(PlayerType.HUMAN) }
-    var searchDepth by remember { mutableStateOf(6) }
+@Composable fun GameSetupView(
+    whiteType: PlayerType,
+    blackType: PlayerType,
+    initialDepth: Int,
+    hideView: (PlayerType, PlayerType, Int) -> Unit
+) {
+    var whitePlayerType by remember { mutableStateOf(whiteType) }
+    var blackPlayerType by remember { mutableStateOf(blackType) }
+    var searchDepth by remember { mutableStateOf(initialDepth) }
 
     Dialog(
         title = "Game Config",
-        onCloseRequest = { hideView() },
+        onCloseRequest = { hideView(whitePlayerType, blackPlayerType, searchDepth) },
     ) {
         Row(
             modifier = Modifier

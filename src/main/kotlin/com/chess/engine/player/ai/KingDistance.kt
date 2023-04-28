@@ -7,5 +7,5 @@ data class KingDistance(
     val distance: Int
 ) {
     val tropismScore: Int
-        get() = enemyPiece?.pieceValue ?: 0 / 10 * distance
+        get() = (enemyPiece?.pieceValue ?: 0) / 10 * distance
 }

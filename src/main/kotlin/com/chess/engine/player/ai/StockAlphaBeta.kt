@@ -25,7 +25,7 @@ class StockAlphaBeta(private val searchDepth: Int) : MoveStrategy {
     private var quiescenceCount = 0
     override var numBoardsEvaluated = 0L
 
-    override fun execute(board: Board): Move {
+    override suspend fun execute(board: Board): Move {
         val startTime = System.currentTimeMillis()
         val currentPlayer = board.currentPlayer
         var bestMove: Move? = null
@@ -38,39 +38,39 @@ class StockAlphaBeta(private val searchDepth: Int) : MoveStrategy {
         MoveSorter.EXPENSIVE.sort(board.currentPlayer.legalMoves).forEach { move ->
             val moveTransition = board.currentPlayer.makeMove(move)
             quiescenceCount = 0
-            val s = when (moveTransition.moveStatus.isDone) {
-                true -> {
-                    val candidateMoveStartTime = System.nanoTime()
-                    currentValue = when (currentPlayer.alliance) {
-                        WHITE -> min(moveTransition.toBoard, searchDepth - 1, highestSeenValue, lowestSeenValue)
-                        BLACK -> max(moveTransition.toBoard, searchDepth - 1, highestSeenValue, lowestSeenValue)
-                    }
-                    when {
-                        currentPlayer.alliance.isWhite && currentValue > highestSeenValue -> {
-                            highestSeenValue = currentValue
-                            bestMove = move
-                            if (moveTransition.toBoard.blackPlayer.isInCheckMate) {
-                                return@forEach
-                            }
-                        }
-                        currentPlayer.alliance.isBlack && currentValue < lowestSeenValue -> {
-                            lowestSeenValue = currentValue
-                            bestMove = move
-                            if (moveTransition.toBoard.whitePlayer.isInCheckMate) {
-                                return@forEach
-                            }
-                        }
-                    }
-                    val quiescenceInfo =
-                        " ${currentPlayer.score(highestSeenValue, lowestSeenValue)} q: $quiescenceCount"
-                    " ${toString()}($searchDepth), m: ($moveCounter/$numMoves) $move, best: $bestMove$quiescenceInfo, t: ${
-                        calculateTimeTaken(
-                            candidateMoveStartTime,
-                            System.nanoTime()
-                        )
-                    }"
+            val s = if (moveTransition.moveStatus.isDone) {
+                val candidateMoveStartTime = System.nanoTime()
+                currentValue = when (currentPlayer.alliance) {
+                    WHITE -> min(moveTransition.toBoard, searchDepth - 1, highestSeenValue, lowestSeenValue)
+                    BLACK -> max(moveTransition.toBoard, searchDepth - 1, highestSeenValue, lowestSeenValue)
                 }
-                false -> "\t${toString()}($searchDepth), m: ($moveCounter/$numMoves) $move is illegal! best: $bestMove"
+                when {
+                    currentPlayer.alliance.isWhite && currentValue > highestSeenValue -> {
+                        highestSeenValue = currentValue
+                        bestMove = move
+                        if (moveTransition.toBoard.blackPlayer.isInCheckMate) {
+                            return@forEach
+                        }
+                    }
+
+                    currentPlayer.alliance.isBlack && currentValue < lowestSeenValue -> {
+                        lowestSeenValue = currentValue
+                        bestMove = move
+                        if (moveTransition.toBoard.whitePlayer.isInCheckMate) {
+                            return@forEach
+                        }
+                    }
+                }
+                val quiescenceInfo =
+                    " ${currentPlayer.score(highestSeenValue, lowestSeenValue)} q: $quiescenceCount"
+                " ${toString()}($searchDepth), m: ($moveCounter/$numMoves) $move, best: $bestMove$quiescenceInfo, t: ${
+                    calculateTimeTaken(
+                        candidateMoveStartTime,
+                        System.nanoTime()
+                    )
+                }"
+            } else {
+                "\t${toString()}($searchDepth), m: ($moveCounter/$numMoves) $move is illegal! best: $bestMove"
             }
             println(s)
             moveCounter++
